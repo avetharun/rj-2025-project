@@ -1,4 +1,4 @@
-class_name player extends UCharacterBody3D
+class_name player extends Entity
 @export var CameraRaycast : Area3D
 func _process(_delta: float) -> void:
 	if (Input.is_action_just_pressed("action_pause")):

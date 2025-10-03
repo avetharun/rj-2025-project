@@ -45,7 +45,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -4)
 [node name="UCharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("CameraRaycast")]
 script = ExtResource("1_errlg")
 CameraRaycast = NodePath("Head/Camera/RayCast")
-MOUSE_SENSITIVITY = 0.1
 metadata/_custom_type_script = "uid://dw8gv4ihekhhl"
 
 [node name="CollisionShapeNormal" type="CollisionShape3D" parent="UCharacterBody3D"]

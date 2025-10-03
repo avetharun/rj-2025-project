@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://de6huqj53ip7g"]
+[gd_scene load_steps=13 format=3 uid="uid://de6huqj53ip7g"]
 
 [ext_resource type="Script" uid="uid://cqa0so03x3f63" path="res://scripts/player.gd" id="1_errlg"]
 [ext_resource type="PackedScene" uid="uid://dgdac0fko5bru" path="res://scenes/prefabs/spell_tome.tscn" id="2_bl13t"]
+[ext_resource type="Script" uid="uid://c7ofk2n1mxp7y" path="res://scripts/entity.gd" id="3_iyx0m"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_errlg"]
 albedo_color = Color(0.11858145, 0.11858136, 0.11858136, 1)
@@ -27,6 +28,17 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
+[sub_resource type="PlaceholderMesh" id="PlaceholderMesh_iyx0m"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j5jx5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpvoh"]
+albedo_color = Color(0.41960785, 0.39607844, 1, 1)
+emission_enabled = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_at5dv"]
+material = SubResource("StandardMaterial3D_lpvoh")
+
 [node name="Test" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -42,9 +54,8 @@ material = SubResource("StandardMaterial3D_errlg")
 [node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -4)
 
-[node name="UCharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("CameraRaycast")]
+[node name="UCharacterBody3D" type="CharacterBody3D" parent="."]
 script = ExtResource("1_errlg")
-CameraRaycast = NodePath("Head/Camera/RayCast")
 metadata/_custom_type_script = "uid://dw8gv4ihekhhl"
 
 [node name="CollisionShapeNormal" type="CollisionShape3D" parent="UCharacterBody3D"]
@@ -112,5 +123,26 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="UCharacterBody3D"]
+mesh = SubResource("PlaceholderMesh_iyx0m")
+
+[node name="Entity" type="CharacterBody3D" parent="." node_paths=PackedStringArray("mesh", "death_particle_origin")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+script = ExtResource("3_iyx0m")
+mesh = NodePath("MeshInstance3D")
+death_particle_origin = NodePath("DeathParticlePos")
+metadata/_custom_type_script = "uid://c7ofk2n1mxp7y"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Entity"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_j5jx5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Entity"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_at5dv")
+
+[node name="DeathParticlePos" type="Node3D" parent="Entity"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
 [node name="SpellTome" parent="." instance=ExtResource("2_bl13t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.574099, -3.3576286)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, -3.4)

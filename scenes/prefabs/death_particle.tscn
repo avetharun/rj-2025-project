@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://chv0e3co13o3t"]
+
+[ext_resource type="Script" uid="uid://c2ja1eugyxfeq" path="res://addons/UniParticles3D/UniParticles3D.gd" id="1_bf4of"]
+
+[sub_resource type="Curve" id="Curve_tb4ey"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.19281045, 0.9742404), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[node name="DeathParticle" type="Node3D"]
+script = ExtResource("1_bf4of")
+duration = 5.0
+start_lifetime_mode = 1
+start_lifetime_random = Vector2(0.1, 0.3)
+enable_play_behavior = Vector2i(1, 1)
+enable_emission = Vector2i(1, 1)
+max_particles = 50
+rate_over_time = 0.0
+bursts = [0.0, 0, 50, 50, 0, 1, 1, 0.0, 1.0]
+enable_shape = Vector2i(1, 1)
+shape_type = 1
+radius = 0.525
+random_direction = 1.0
+spherize_direction = 1.0
+emit_from = 1
+enable_size_over_lifetime = Vector2i(1, 1)
+size_over_lifetime = SubResource("Curve_tb4ey")
+enable_rendering = Vector2i(1, 0)
+metadata/_custom_type_script = "uid://c2ja1eugyxfeq"

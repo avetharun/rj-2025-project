@@ -1,6 +1,6 @@
 class_name BaseCollisionBody extends RigidBody3D
 
-func on_phys_move():
+func on_attack():
 	pass
-func on_pick():
+func on_interact():
 	pass

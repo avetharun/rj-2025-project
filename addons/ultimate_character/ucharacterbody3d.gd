@@ -1,4 +1,4 @@
-extends CharacterBody3D
+@tool extends CharacterBody3D
 class_name UCharacterBody3D
 
 ## A 3D physics body using a revamped template script.
@@ -66,13 +66,7 @@ var direction = Vector3.ZERO
 var scene
 
 func _enter_tree():
-	if Engine.is_editor_hint():
-		# Obtain the current scene root
-		scene = get_tree().edited_scene_root
-		if scene == null:
-			printerr("Failed to obtain scene tree in editor")
-			return
-	
+	if Engine.is_editor_hint(): scene = get_tree().edited_scene_root
 	if !Engine.is_editor_hint():
 		collision_shape_normal = $CollisionShapeNormal
 		collision_shape_crouch = $CollisionShapeCrouch

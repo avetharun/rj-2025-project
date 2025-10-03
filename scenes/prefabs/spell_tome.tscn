@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dgdac0fko5bru"]
 
-[ext_resource type="Script" uid="uid://ci2lb5c0f8yum" path="res://scripts/magic/spell_tome.gd" id="1_tb461"]
+[ext_resource type="Script" uid="uid://d36ej265ddksy" path="res://scripts/magic/SpellTome.gd" id="1_tb461"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_iyx0m"]
 size = Vector3(0.6, 0.2, 1)

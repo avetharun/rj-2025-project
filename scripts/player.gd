@@ -1,0 +1,1 @@
+extends UCharacterBody3D

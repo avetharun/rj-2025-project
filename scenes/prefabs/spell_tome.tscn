@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgdac0fko5bru"]
+
+[ext_resource type="Script" uid="uid://ci2lb5c0f8yum" path="res://scripts/magic/spell_tome.gd" id="1_tb461"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_iyx0m"]
+size = Vector3(0.6, 0.2, 1)
+
+[node name="SpellTome" type="RigidBody3D"]
+center_of_mass_mode = 1
+center_of_mass = Vector3(0, 0.1, 0)
+continuous_cd = true
+script = ExtResource("1_tb461")
+metadata/_custom_type_script = "uid://ci2lb5c0f8yum"
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.099999994, 0)
+size = Vector3(0.6, 0.2, 1)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3164062, 0, 0)
+operation = 2
+size = Vector3(0.1, 0.1, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("BoxShape3D_iyx0m")

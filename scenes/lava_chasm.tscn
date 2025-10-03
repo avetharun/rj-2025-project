@@ -1,0 +1,208 @@
+[gd_scene load_steps=9 format=3 uid="uid://c7nxmvvkborg7"]
+
+[ext_resource type="Script" uid="uid://cqa0so03x3f63" path="res://scripts/player.gd" id="1_sv04b"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j8now"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ogkqc"]
+height = 1.3
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_plsm6"]
+radius = 0.1
+height = 1.8505859
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxkc6"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sv04b"]
+albedo_color = Color(0.19824871, 0.11224858, 0.07732464, 1)
+metallic_specular = 0.0
+roughness = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u14ty"]
+albedo_color = Color(1, 0.12941177, 0, 1)
+emission_enabled = true
+emission = Color(0.17470032, 0.08048368, 1.8049032e-08, 1)
+
+[sub_resource type="Environment" id="Environment_sv04b"]
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.5803922, 0.21176471, 0.24313726, 1)
+fog_light_energy = 0.5
+volumetric_fog_density = 1.974
+volumetric_fog_albedo = Color(0.11119685, 0.11119684, 0.11119684, 1)
+
+[node name="lava_chasm" type="Node3D"]
+
+[node name="UCharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("CameraRaycast")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.10666, 1.502918, 5.3983765)
+script = ExtResource("1_sv04b")
+CameraRaycast = NodePath("Head/Camera/RayCast")
+metadata/_custom_type_script = "uid://dw8gv4ihekhhl"
+
+[node name="CollisionShapeNormal" type="CollisionShape3D" parent="UCharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_j8now")
+
+[node name="CollisionShapeCrouch" type="CollisionShape3D" parent="UCharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+shape = SubResource("CapsuleShape3D_ogkqc")
+disabled = true
+
+[node name="Head" type="Node3D" parent="UCharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="Camera" type="Camera3D" parent="UCharacterBody3D/Head"]
+
+[node name="RayCast" type="Area3D" parent="UCharacterBody3D/Head/Camera"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="UCharacterBody3D/Head/Camera/RayCast"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.82836914)
+shape = SubResource("CapsuleShape3D_plsm6")
+
+[node name="RayCast3D" type="RayCast3D" parent="UCharacterBody3D"]
+target_position = Vector3(0, 2, 0)
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="UCharacterBody3D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UCharacterBody3D/AspectRatioContainer"]
+custom_minimum_size = Vector2(137.795, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UCharacterBody3D/AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "TEST"
+fit_content = true
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="UCharacterBody3D/AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "TEST"
+fit_content = true
+
+[node name="CenterContainer" type="CenterContainer" parent="UCharacterBody3D/AspectRatioContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="UCharacterBody3D/AspectRatioContainer/CenterContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gxkc6")
+
+[node name="MarginContainer" type="MarginContainer" parent="UCharacterBody3D/AspectRatioContainer/CenterContainer/PanelContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="solid_geometry" type="Node3D" parent="."]
+
+[node name="shore" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.226733, 0, 0)
+use_collision = true
+size = Vector3(5, 3, 60)
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="shore5" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.097827, 22.900557, 2.8265686)
+use_collision = true
+size = Vector3(27.257813, 3, 96.063416)
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="shore2" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.230182, 0, 0)
+use_collision = true
+size = Vector3(5, 3, 60)
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="shore3" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.10666, 0, 5.3983765)
+use_collision = true
+size = Vector3(65.34918, 3, 70.79675)
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="shore4" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.10666, 22.913086, 5.3983765)
+use_collision = true
+size = Vector3(65.34918, 3, 70.79675)
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="lava_flow" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.947937)
+size = Vector3(20, 0.1, 96.01404)
+material = SubResource("StandardMaterial3D_u14ty")
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="solid_geometry/lava_flow"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.9197083, -0.41829205)
+light_color = Color(1, 0.30588236, 0.21176471, 1)
+light_energy = 5.174
+light_indirect_energy = 6.795
+light_volumetric_fog_energy = 1.36
+omni_range = 41.361
+omni_attenuation = -0.419
+
+[node name="floor" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.26454163, 1.251648)
+use_collision = true
+size = Vector3(20, 0.1, 89.64197)
+material = SubResource("StandardMaterial3D_u14ty")
+
+[node name="wall" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.54492, 10.054171, -29.979237)
+use_collision = true
+size = Vector3(95.08984, 25.384277, 3)
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="solid_geometry/wall"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -32.54492, -5.8538833, 1.7461662)
+operation = 2
+radius = 10.832031
+height = 9.192764
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="wall2" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25634766, 10.054171, 30.63293)
+use_collision = true
+size = Vector3(30.512695, 25.384277, 3)
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="solid_geometry/wall2"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.25634766, -5.8538833, -0.2088852)
+operation = 2
+radius = 10.832031
+height = 8.584175
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="wall3" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.222496, 10.054171, 42.02729)
+use_collision = true
+size = Vector3(67.13135, 25.384277, 3)
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="wall4" type="CSGBox3D" parent="solid_geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.608875, 10.054171, 36.726364)
+use_collision = true
+size = Vector3(1, 25, 10.439209)
+material = SubResource("StandardMaterial3D_sv04b")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_sv04b")

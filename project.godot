@@ -15,6 +15,10 @@ run/main_scene="uid://de6huqj53ip7g"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameMaster="*res://scripts/game_master.gd"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/ultimate_character/plugin.cfg")

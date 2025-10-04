@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MagicSpellType" load_steps=3 format=3 uid="uid://db2ujur8hkg7j"]
+
+[ext_resource type="Script" uid="uid://folyak5bj34a" path="res://scripts/magic/MagicSpellType.gd" id="1_m6xc5"]
+[ext_resource type="PackedScene" uid="uid://dhqkxoxdm8b3p" path="res://scenes/prefabs/spells/BoltSpellPrefab.tscn" id="2_xhfih"]
+
+[resource]
+script = ExtResource("1_m6xc5")
+spell_name = "Bolt"
+cooldown = 0.65
+spell_prefab = ExtResource("2_xhfih")
+initial_velocity = 128.0
+damage = 45.0
+metadata/_custom_type_script = "uid://folyak5bj34a"

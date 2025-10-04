@@ -1,0 +1,99 @@
+[gd_scene load_steps=16 format=3 uid="uid://dhqkxoxdm8b3p"]
+
+[ext_resource type="Script" uid="uid://djdfj1g8crm6p" path="res://scripts/magic/spells/bolt.gd" id="1_rg8cm"]
+[ext_resource type="Script" uid="uid://c2ja1eugyxfeq" path="res://addons/UniParticles3D/UniParticles3D.gd" id="2_1u6mc"]
+[ext_resource type="Texture2D" uid="uid://bcext1ou8fx7a" path="res://tex/fizzle1.png" id="3_qu6my"]
+[ext_resource type="Texture2D" uid="uid://cudll13use4us" path="res://tex/fizzle2.png" id="4_n7vmb"]
+[ext_resource type="Texture2D" uid="uid://wh748fx8q3vj" path="res://tex/fizzle3.png" id="5_jph5m"]
+[ext_resource type="Texture2D" uid="uid://bcut57wy6hq15" path="res://tex/fizzle4.png" id="6_0en58"]
+[ext_resource type="Texture2D" uid="uid://c7sw3h0adw3cg" path="res://tex/bolt1.png" id="7_jph5m"]
+[ext_resource type="Texture2D" uid="uid://c3u4hmhkf8lvj" path="res://tex/bolt2.png" id="8_0en58"]
+[ext_resource type="Texture2D" uid="uid://npybnm0ie8ey" path="res://tex/bolt3.png" id="9_50vi8"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rg8cm"]
+radius = 0.0860509
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_f6boa"]
+radius = 0.057128906
+height = 0.32402346
+
+[sub_resource type="Gradient" id="Gradient_40sv3"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.6139706)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bjcnq"]
+gradient = SubResource("Gradient_40sv3")
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_j4j04"]
+frames = 4
+frame_0/texture = ExtResource("3_qu6my")
+frame_0/duration = 0.05
+frame_1/texture = ExtResource("4_n7vmb")
+frame_1/duration = 0.05
+frame_2/texture = ExtResource("5_jph5m")
+frame_2/duration = 0.05
+frame_3/texture = ExtResource("6_0en58")
+frame_3/duration = 0.05
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gkdsx"]
+animations = [{
+"frames": [{
+"duration": 0.7,
+"texture": ExtResource("7_jph5m")
+}, {
+"duration": 0.6,
+"texture": ExtResource("8_0en58")
+}, {
+"duration": 0.5,
+"texture": ExtResource("9_50vi8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="BoltSpellPrefab" type="RigidBody3D"]
+script = ExtResource("1_rg8cm")
+metadata/_custom_type_script = "uid://djdfj1g8crm6p"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_rg8cm")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, -1.6605227e-09, 0.16201167)
+shape = SubResource("CapsuleShape3D_f6boa")
+
+[node name="SpellFizzle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.07377807)
+script = ExtResource("2_1u6mc")
+start_lifetime_mode = 1
+start_lifetime_constant = 0.3
+start_lifetime_random = Vector2(0.3, 0.6)
+start_speed_constant = 0.1
+gravity = Vector3(0, -8, 0)
+start_size_constant = Vector2(0.25, 0.25)
+use_world_space = true
+enable_play_behavior = Vector2i(1, 1)
+enable_shape = Vector2i(1, 0)
+shape_type = 1
+radius = 0.039
+emit_from = 1
+enable_color_over_lifetime = Vector2i(1, 0)
+color_over_lifetime = SubResource("GradientTexture1D_bjcnq")
+enable_rendering = Vector2i(1, 0)
+particle_texture = SubResource("AnimatedTexture_j4j04")
+sampling_filter = 1
+metadata/_custom_type_script = "uid://c2ja1eugyxfeq"
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(1.9233013e-07, 0, -2.2000003, 0, 2.2, 0, 2.2000003, 0, 1.9233013e-07, 0, 0, 0)
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_gkdsx")
+frame_progress = 0.5802477
+
+[node name="AnimatedSprite3D2" type="AnimatedSprite3D" parent="."]
+transform = Transform3D(-1.9233013e-07, 2.2, 9.6165074e-08, 0, -9.616507e-08, 2.2000003, 2.2000003, 1.923301e-07, 8.407018e-15, 0, 0, 0)
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_gkdsx")
+frame_progress = 0.58089125

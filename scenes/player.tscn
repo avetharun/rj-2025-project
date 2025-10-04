@@ -1,0 +1,98 @@
+[gd_scene load_steps=7 format=3 uid="uid://drfmccm4ayphx"]
+
+[ext_resource type="Script" uid="uid://cqa0so03x3f63" path="res://scripts/player.gd" id="1_3vyb7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bl13t"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_iyx0m"]
+height = 1.3
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_74lek"]
+radius = 0.1
+height = 1.8505859
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bl13t"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(1, 1, 1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="PlaceholderMesh" id="PlaceholderMesh_iyx0m"]
+
+[node name="UCharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_3vyb7")
+metadata/_custom_type_script = "uid://dw8gv4ihekhhl"
+
+[node name="CollisionShapeNormal" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_bl13t")
+
+[node name="CollisionShapeCrouch" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
+shape = SubResource("CapsuleShape3D_iyx0m")
+disabled = true
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="Camera" type="Camera3D" parent="Head"]
+
+[node name="RayCast" type="Area3D" parent="Head/Camera"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Camera/RayCast"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -0.82836914)
+shape = SubResource("CapsuleShape3D_74lek")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+target_position = Vector3(0, 2, 0)
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer"]
+custom_minimum_size = Vector2(137.795, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "TEST"
+fit_content = true
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="AspectRatioContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "TEST"
+fit_content = true
+
+[node name="CenterContainer" type="CenterContainer" parent="AspectRatioContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="AspectRatioContainer/CenterContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bl13t")
+
+[node name="MarginContainer" type="MarginContainer" parent="AspectRatioContainer/CenterContainer/PanelContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaceholderMesh_iyx0m")

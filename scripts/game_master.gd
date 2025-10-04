@@ -12,3 +12,9 @@ func _ready():
 	
 	add_child(timer)
 	timer.start(3)
+	
+func align_with_y(xform : Transform3D, new_y : Vector3):
+	xform.basis.y = new_y
+	xform.basis.x = -xform.basis.z.cross(new_y)
+	xform.basis = xform.basis.orthonormalized()
+	return xform

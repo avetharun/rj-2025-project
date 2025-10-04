@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://dktp67f0lvnqt"]
+
+[ext_resource type="Script" uid="uid://c2ja1eugyxfeq" path="res://addons/UniParticles3D/UniParticles3D.gd" id="1_0upc2"]
+[ext_resource type="Texture2D" uid="uid://bcext1ou8fx7a" path="res://tex/fizzle1.png" id="2_40sv3"]
+[ext_resource type="Texture2D" uid="uid://cudll13use4us" path="res://tex/fizzle2.png" id="3_bjcnq"]
+[ext_resource type="Texture2D" uid="uid://wh748fx8q3vj" path="res://tex/fizzle3.png" id="4_8ifls"]
+[ext_resource type="Texture2D" uid="uid://bcut57wy6hq15" path="res://tex/fizzle4.png" id="5_si3fi"]
+
+[sub_resource type="Gradient" id="Gradient_40sv3"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.6139706)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bjcnq"]
+gradient = SubResource("Gradient_40sv3")
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_j4j04"]
+frames = 4
+frame_0/texture = ExtResource("2_40sv3")
+frame_0/duration = 0.05
+frame_1/texture = ExtResource("3_bjcnq")
+frame_1/duration = 0.05
+frame_2/texture = ExtResource("4_8ifls")
+frame_2/duration = 0.05
+frame_3/texture = ExtResource("5_si3fi")
+frame_3/duration = 0.05
+
+[node name="SpellFizzle" type="Node3D"]
+script = ExtResource("1_0upc2")
+start_lifetime_mode = 1
+start_lifetime_constant = 0.3
+start_lifetime_random = Vector2(0.3, 0.6)
+start_speed_constant = 0.1
+gravity = Vector3(0, -8, 0)
+use_world_space = true
+enable_play_behavior = Vector2i(1, 1)
+destroy_on_finish = true
+enable_emission = Vector2i(1, 1)
+enable_shape = Vector2i(1, 0)
+shape_type = 1
+radius = 0.039
+emit_from = 1
+enable_color_over_lifetime = Vector2i(1, 0)
+color_over_lifetime = SubResource("GradientTexture1D_bjcnq")
+enable_rendering = Vector2i(1, 0)
+particle_texture = SubResource("AnimatedTexture_j4j04")
+sampling_filter = 1
+metadata/_custom_type_script = "uid://c2ja1eugyxfeq"

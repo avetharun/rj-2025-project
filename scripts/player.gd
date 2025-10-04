@@ -2,6 +2,11 @@ class_name player extends Entity
 
 ## A 3D physics body using a revamped template script.
 const RAY_LENGTH = 2.75
+@export_group("Spells")
+@export var Spells : Dictionary[String, MagicSpellType]
+var SpellCooldowns : Dictionary[MagicSpellType, float]
+
+
 @export_group("Character Speeds")
 @export var jump_velocity : float = 4.5
 @export var walk_speed : float = 5.0
@@ -248,14 +253,37 @@ func _physics_process(delta):
 	
 	if (phys_attack or phys_interact):
 		var space_state = get_world_3d().direct_space_state
-		var query = PhysicsRayQueryParameters3D.create(camera_node.global_position, camera_node.global_position - camera_node.global_transform.basis.z * 100)
+		var query = PhysicsRayQueryParameters3D.create(camera_node.global_position, camera_node.global_position - camera_node.global_transform.basis.z * 1.75)
 		var result = space_state.intersect_ray(query)
 		if (result and result.collider):
 			if (phys_attack and result.collider.has_method(&"on_melee")):
-				result.collider.on_melee(get_melee_damage())
+				result.collider.on_melee(get_melee_damage(), result.position, result.normal)
 			if (phys_interact and result.collider.has_method(&"on_interact")):
 				result.collider.on_interact()
+func get_spell_velocity_modifier() -> float:
+	return 1
+func get_spell_cooldown_reduction() -> float:
+	return 0
+func get_spell_cooldown_reduction_percent() -> float:
+	return get_spell_cooldown_reduction() * 100.0
 func _process(_delta: float) -> void:
+	var spell_usages : Dictionary = {
+		"1":Input.is_action_just_pressed("spell_use_1"), 
+		"2":Input.is_action_just_pressed("spell_use_2"), 
+		"3":Input.is_action_just_pressed("spell_use_3"), 
+		"q":Input.is_action_just_pressed("spell_use_q"), 
+		"e":Input.is_action_just_pressed("spell_use_e")
+	}
+	for spell in SpellCooldowns:
+		SpellCooldowns[spell] = SpellCooldowns[spell] - _delta
+	for use in spell_usages:
+		if (spell_usages[use] and Spells.has(use) and (!SpellCooldowns.has(Spells[use]) or SpellCooldowns[Spells[use]] <= 0)):
+			var spell = Spells[use];
+			if (spell):
+				var dir = (-camera_node.global_basis.z).normalized();
+				spell.cast(self, get_tree(), camera_node.global_position + dir * 2, dir, get_spell_velocity_modifier())
+				SpellCooldowns[spell] = spell.cooldown / (1+get_spell_cooldown_reduction())
+			pass
 	if (Input.is_action_just_pressed("action_pause")):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_CAPTURED
 	pass

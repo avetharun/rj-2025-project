@@ -1,0 +1,14 @@
+[remap]
+
+importer="aseprite_wizard.plugin.noop"
+type="PackedDataContainer"
+uid="uid://ddaxu5ttasheu"
+path="res://.godot/imported/fizzle.ase-ff7aa925489b5d142deb37f1a5621216.res"
+
+[deps]
+
+source_file="res://tex/fizzle.ase"
+dest_files=["res://.godot/imported/fizzle.ase-ff7aa925489b5d142deb37f1a5621216.res"]
+
+[params]
+

@@ -16,9 +16,11 @@ var current_regen_timeout : float = 0
 @export var mesh : MeshInstance3D
 var damage_time : float
 @export var invulnerable : bool = false
+@export var has_death_particle : bool = true
 @export var death_particle_origin : Node3D
 func _ready():
 	mesh = get_children().filter(func(c): return c is MeshInstance3D)[0] if mesh == null else mesh
+	mesh.mesh = mesh.mesh.duplicate()
 	current_regen_timeout = regen_timeout_seconds;
 	print(mesh)
 	rebake_material_emissions()
@@ -42,14 +44,15 @@ func on_death():
 		(func(_xrot): self.rotation.x = _xrot),
 		rotation.x, rotation.x + (deg_to_rad(90)), 0.35
 	)
-	get_tree().create_timer(0.5).timeout.connect(func():
-		queue_free()
-		var particle_child = (load("res://scenes/prefabs/death_particle.tscn") as PackedScene).instantiate() as UniParticles3D
-		get_tree().root.add_child(particle_child)
-		particle_child._emit_particle()
-		particle_child.global_position = global_position if death_particle_origin == null else death_particle_origin.global_position
-		get_tree().create_timer(particle_child.duration).timeout.connect(func(): particle_child.queue_free())
-	)
+	if (has_death_particle):
+		get_tree().create_timer(0.5).timeout.connect(func():
+			queue_free()
+			var particle_child = (load("res://scenes/prefabs/death_particle.tscn") as PackedScene).instantiate() as UniParticles3D
+			get_tree().root.add_child(particle_child)
+			particle_child._emit_particle()
+			particle_child.global_position = global_position if death_particle_origin == null else death_particle_origin.global_position
+			get_tree().create_timer(particle_child.duration + 1).timeout.connect(func(): if (particle_child): particle_child.queue_free())
+		)
 	pass
 func apply_damage(amount):
 	if (invulnerable): return
@@ -59,7 +62,6 @@ func apply_damage(amount):
 	else: on_death()
 var base_mat_emissions : Array[Color] = []
 var mat_emission_targets : Array[Color] = []
-
 func rebake_material_emissions():
 	base_mat_emissions.clear()
 	for i in range(0, mesh.get_surface_override_material_count()):
@@ -69,33 +71,44 @@ func rebake_material_emissions():
 		else:
 			base_mat_emissions.append(mat.get_shader_parameter("emission") as Color)
 	pass
-
-func attacked(amount):
+func create_hit_particle(hit_pos : Vector3, hit_dir : Vector3):
+	var particle_child = (load("res://scenes/prefabs/hit_particle.tscn") as PackedScene).instantiate() as UniParticles3D
+	get_tree().root.add_child(particle_child)
+	particle_child.position = hit_pos
+	particle_child._time = 0
+	particle_child.transform = GameMaster.align_with_y(particle_child.transform, hit_dir)
+	get_tree().create_timer(particle_child.duration+1).timeout.connect(func():
+		get_tree().root.remove_child(particle_child)
+		particle_child.queue_free()
+	)
+func attacked(amount, hit_pos = null, hit_dir = null):
+	if (hit_pos != null):
+		create_hit_particle(hit_pos, hit_dir if hit_dir != null else self.basis.z)
 	apply_damage(amount)
 	pass
-func on_melee(amount):
-	attacked(amount)
+func on_melee(amount, hit_pos = null, hit_dir = null):
+	attacked(amount, hit_pos, hit_dir)
 	pass
 func on_interact():
 	pass
 
 func _physics_process(_delta):
-	if (damage_time < 0):
-		for i in range(0, mesh.get_surface_override_material_count()):
-			var mat = mesh.get_active_material(i)
-			var c = base_mat_emissions[i]
-			if (mat is StandardMaterial3D):
-				mat.emission = c
-			else: 
-				mat.set_shader_parameter("emission", c)
-	if (damage_time > 0):
-		for i in range(0, mesh.get_surface_override_material_count()):
-			var c = Color.RED
-			var mat = mesh.get_active_material(i)
-			if (mat is StandardMaterial3D):
-				mat.emission = c
-			else: 
-				mat.set_shader_parameter("emission", c)
+	#if (damage_time < 0):
+		#for i in range(0, mesh.get_surface_override_material_count()):
+			#var mat = mesh.get_active_material(i)
+			#var c = base_mat_emissions[i]
+			#if (mat is StandardMaterial3D):
+				#mat.emission = c
+			#else: 
+				#mat.set_shader_parameter("emission", c)
+	#if (damage_time > 0):
+		#for i in range(0, mesh.get_surface_override_material_count()):
+			#var c = Color.RED
+			#var mat = mesh.get_active_material(i)
+			#if (mat is StandardMaterial3D):
+				#mat.emission = c
+			#else: 
+				#mat.set_shader_parameter("emission", c)
 	damage_time -= _delta
 	current_regen_timeout-=_delta
 	if(current_regen_timeout <= 0):

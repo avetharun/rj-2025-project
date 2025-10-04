@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cr44e42ug7no4"]
+
+[ext_resource type="Script" uid="uid://c7ofk2n1mxp7y" path="res://scripts/entity.gd" id="1_fdw5x"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j5jx5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lpvoh"]
+albedo_color = Color(0.41960785, 0.39607844, 1, 1)
+emission_enabled = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_at5dv"]
+material = SubResource("StandardMaterial3D_lpvoh")
+
+[node name="Entity" type="CharacterBody3D" node_paths=PackedStringArray("mesh", "death_particle_origin")]
+script = ExtResource("1_fdw5x")
+mesh = NodePath("MeshInstance3D")
+death_particle_origin = NodePath("DeathParticlePos")
+metadata/_custom_type_script = "uid://c7ofk2n1mxp7y"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_j5jx5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_at5dv")
+
+[node name="DeathParticlePos" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

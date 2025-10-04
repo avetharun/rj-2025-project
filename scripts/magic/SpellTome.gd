@@ -1,5 +1,5 @@
 class_name SpellTome extends BaseCollisionBody
-@export var spell : MagicSpell
+@export var spell : MagicSpellType
 
 func on_interact():
 	print("A")
